@@ -1,14 +1,4 @@
+<app-header></app-header>
 <div class="container">
-
-    <div style="text-align:center">
-      <h1>
-       {{ title }}
-      </h1>
-    </div>
-
-    <div>
-      <h2 style="font-weight: bold"> Posts </h2>
-      <app-post-list [posts]="posts"></app-post-list>
-    </div>
-    
+      <router-outlet></router-outlet>
 </div>
