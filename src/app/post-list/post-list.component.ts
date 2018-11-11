@@ -18,8 +18,8 @@ export class PostListComponent implements OnInit, OnDestroy {
 	ngOnInit() {
 		this.postSubscription = this.postsService.postsSubject.subscribe(
 			(posts: Post[]) => {
-				this.posts = posts;
-			}
+				this.posts = posts.sort((a,b) => a.created_at > b.created_at ? -1 : a.created_at < b.created_at ? 1 : 0);
+			}	
 		);
 		this.postsService.emitPosts();
 	}

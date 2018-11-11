@@ -33,8 +33,9 @@ export class NewPostComponent implements OnInit {
   	const title = this.postForm.get('title').value;
   	const content = this.postForm.get('content').value ;
   	const postLoveIts = 0;
-  	const postDontLoveIts= 0;
-  	const newPost = new Post(title, content, postLoveIts,postDontLoveIts);
+  	const postDontLoveIts = 0;
+    const createdAt = Date.now();  
+  	const newPost = new Post(title, content, postLoveIts,postDontLoveIts,createdAt);
   	this.postsService.createNewPost(newPost);
   	this.router.navigate(['/posts']);
 

@@ -1,28 +1,42 @@
 import { Post } from '../models/post.model';
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs'; 
+import { Subject } from 'rxjs';
+import * as firebase from 'firebase';
+import { DataSnapshot } from 'firebase/database';
+
 
 @Injectable()
 
 export class PostsService {
-
-	post1: Post  = new Post("Qu'est-ce que le Lorem Ipsum?", "Le Lorem Ipsum est simplement du faux texte employé dans la composition et la mise en page avant impression. Le Lorem Ipsum est le faux texte standard de l'imprimerie depuis les années 1500, quand un imprimeur anonyme assembla ensemble des morceaux de texte pour réaliser un livre spécimen de polices de texte. Il n'a pas fait que survivre cinq siècles,...", 0,0);
-	post2: Post  = new Post("Pourquoi l'utiliser?", "Contrairement à une opinion répandue, le Lorem Ipsum n'est pas simplement du texte aléatoire. Il trouve ses racines dans une oeuvre de la littérature latine classique datant de 45 av. J.-C., le rendant vieux de 2000 ans. Un professeur du Hampden-Sydney College, en Virginie, s\'est intéressé à un des mots latins les plus obscurs, consectetur,...", 2, 0);
-	post3: Post  = new Post("Où puis-je m'en procurer?","Plusieurs variations de Lorem Ipsum peuvent être trouvées ici ou là, mais la majeure partie d\'entre elles a été altérée par l'addition d'humour ou de mots aléatoires qui ne ressemblent pas une seconde à du texte standard. Si vous voulez utiliser un passage du Lorem Ipsum, vous devez être sûr qu'il n'y a rien d\'embarrassant caché dans le texte. ", 0, 5);		
-	
-	posts: Post[] = [this.post1, this.post2, this.post3];
-	
-	
+		
+	posts: Post[] = [];
 	postsSubject = new Subject<Post[]>();
+
+	constructor() {
+		this.getPosts();
+	}
 
 	emitPosts() {
 		this.postsSubject.next(this.posts);
 	}
 
+	savePosts() {
+		firebase.database().ref('/posts').set(this.posts);
+	}
+
+	getPosts() {
+		firebase.database().ref('/posts').
+		on('value', (data:DataSnapshot) => {
+			this.posts = data.val() ? data.val() :[];
+			this.emitPosts();
+		  }
+		);
+	}
+
 	createNewPost(newPost: Post) {
 		this.posts.push(newPost);
+		this.savePosts();
 		this.emitPosts();
-
 	}
 
 	removePost(post: Post) {
@@ -34,6 +48,7 @@ export class PostsService {
 			}
 		);
 		this.posts.splice(postIndexToRemove, 1);
+		this.savePosts();
 		this.emitPosts();
 	}
 
@@ -43,7 +58,8 @@ export class PostsService {
 
 		} else {
 			post.loveIts = 1;
-		}		
+		}	
+		this.savePosts();	
 		this.emitPosts();
 		return post.loveIts
 	}
@@ -54,7 +70,8 @@ export class PostsService {
 
 		} else {
 			post.dontLoveIts = 1;
-		}		
+		}
+		this.savePosts();		
 		this.emitPosts();
 		return post.dontLoveIts
 	}

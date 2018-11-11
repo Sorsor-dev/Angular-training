@@ -13,7 +13,7 @@ export class PostListItemComponent implements OnInit {
 	@Input() postContent : string;
 	@Input() postLoveIts : number;
 	@Input() postDontLoveIts : number;
-	@Input() postCreated_at : Date;
+	@Input() postCreated_at : number;
 	@Input() index : number;
 
 	constructor(private postsService: PostsService) { }
@@ -21,19 +21,14 @@ export class PostListItemComponent implements OnInit {
 	ngOnInit() {}
 
 	onLoveIts(){
-
 		this.postsService.addLoveIts(this.postsService.posts[this.index]);
-		
 	}
 
 	onDontLoveIts(){
-
 		this.postsService.addDontLoveIts(this.postsService.posts[this.index]);
-		console.log(this.postsService.posts);
 	}
 
 	onRemove(index: number) {
-		console.log('this.postsService.postsSubject', this.postsService.postsSubject);
 		this.postsService.removePost(this.postsService.posts[index]);
 	}
 

@@ -10,8 +10,7 @@
 				<label for="content">Contenu</label>
 				<input type="text"  id="content" name="content" class="form-control" formControlName="content">
 			</div>
-			<button type="submit" class="btn-primary" [disabled]="postForm.invalid">Soumettre</button>
+			<button type="submit" class="btn btn-primary" [disabled]="postForm.invalid">Soumettre</button>
 		</form>
-		<p class="text-danger">{{ errorMessage }}</p>
 	</div>	
 </div>
