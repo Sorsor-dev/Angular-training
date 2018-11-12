@@ -1,5 +1,9 @@
-# BlogProjectOpenclassroom
+# Blog Project
 
+## Description du projet 
+ Blog project est une application simple de type blog.  Cette application va afficher les posts du blog et chaque post aura un bouton permettant de `"love it"` ou de `"don't love it"`.
+
+## Description technique
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.1.5.
 
 ## Development server
